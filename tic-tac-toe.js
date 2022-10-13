@@ -10,12 +10,14 @@ function markSquare(val) {
 		val.textContent = "X"
 		prevIndex = val.id
 	} else if (gamePlay[prevIndex] == "O") {
+		// checkCell()
 		gamePlay[val.id] = "X"
 		val.setAttribute("class", "square X")
 		val.textContent = "X"
 		checkWinner()
 		prevIndex = val.id
 	} else {
+		// checkCell()
 		gamePlay[val.id] = "O"
 		val.setAttribute("class", "square O")
 		val.textContent = "O"
@@ -32,6 +34,13 @@ function mouseOver(val){
 
 function mouseOut(val){
 	val.classList.remove("hover")
+}
+
+
+function checkCell(cell) {
+	if (cell.textContent != "X" && cell.textContent != "O") {
+		markSquare(cell)
+	}
 }
 
 
@@ -54,7 +63,7 @@ function createBoard() {
 
 	for (var i=0; i < childList.length; i++) {
 		childList[i].setAttribute("class", "square")
-	    childList[i].setAttribute("onclick", "markSquare(this)")
+	    childList[i].setAttribute("onclick", "checkCell(this)")
 	    childList[i].setAttribute("onmouseover", "mouseOver(this)")
 	    childList[i].setAttribute("onmouseout", "mouseOut(this)")
 	    childList[i].setAttribute("id", i)
