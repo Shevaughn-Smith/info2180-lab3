@@ -8,7 +8,8 @@ function init() {
 function markSquare(val) {
 	if (gamePlay.length == 0) {
 		gamePlay.push("X")
-		val.setAttribute("class", "square X")
+		// val.setAttribute("class", "square X")
+		val.classList.add("square", "X")
 		val.textContent = "X"
 	} else if (gamePlay[gamePlay.length - 1] == "O") {
 		gamePlay.push("X")
@@ -21,6 +22,14 @@ function markSquare(val) {
 	}
 }
 
+function mouseOver(val){
+	val.classList.add("hover")
+}
+
+function mouseOut(val){
+	val.classList.remove("hover")
+}
+
 
 
 function createBoard() {
@@ -30,6 +39,8 @@ function createBoard() {
 	  if (children[i].nodeName == "DIV") {
 	    children[i].setAttribute("class", "square")
 	    children[i].setAttribute("onclick", "markSquare(this)")
+	    children[i].setAttribute("onmouseover", "mouseOver(this)")
+	    children[i].setAttribute("onmouseout", "mouseOut(this)")
 	  }
 	} 
 }
