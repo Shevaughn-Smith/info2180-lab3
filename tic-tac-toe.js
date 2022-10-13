@@ -1,10 +1,7 @@
-window.onload = init;
+window.onload = createBoard;
 var gamePlay = new Array();
 var prevIndex;
 
-function init() {
-	var button = document.getElementsByClassName("btn")[0].setAttribute("onclick", "createBoard()")
-}
 
 function markSquare(val) {
 	if (gamePlay.length == 0) {
@@ -27,19 +24,26 @@ function markSquare(val) {
 	}
 }
 
+
 function mouseOver(val){
 	val.classList.add("hover")
 }
+
 
 function mouseOut(val){
 	val.classList.remove("hover")
 }
 
 
-
 function createBoard() {
+	var button = document.getElementsByClassName("btn")[0].setAttribute("onclick", "createBoard()")
+	var status = document.getElementById("status")
 	var children = document.getElementById("board").childNodes
 	var childList = new Array();
+
+	gamePlay = []
+	status.textContent = "Move your mouse over a square and click to play an X or an O."
+	status.classList.remove("you-won")
 
 
 	for (var i=0; i < children.length; i++) {
@@ -54,6 +58,7 @@ function createBoard() {
 	    childList[i].setAttribute("onmouseover", "mouseOver(this)")
 	    childList[i].setAttribute("onmouseout", "mouseOut(this)")
 	    childList[i].setAttribute("id", i)
+	    childList[i].textContent = ""
 	} 
 }
 
@@ -91,6 +96,7 @@ function checkWinner(){
 		winner("O")
 	}
 }
+
 
 function winner(player) {
 	var status = document.getElementById("status")
