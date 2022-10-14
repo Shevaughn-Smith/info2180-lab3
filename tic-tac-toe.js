@@ -91,8 +91,6 @@ function markSquare(val) {
 }
 
 
-
-
 function mouseOver(val){
 	val.classList.add("hover")
 }
