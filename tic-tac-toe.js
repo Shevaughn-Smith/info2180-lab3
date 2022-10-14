@@ -3,57 +3,9 @@ var gamePlay = new Array();
 var prevIndex;
 
 
-function markSquare(val) {
-	if (gamePlay.length == 0) {
-		gamePlay[val.id] = "X"
-		val.setAttribute("class", "square X")
-		val.textContent = "X"
-		prevIndex = val.id
-	} else if (gamePlay[prevIndex] == "O") {
-		// checkCell()
-		gamePlay[val.id] = "X"
-		val.setAttribute("class", "square X")
-		val.textContent = "X"
-		checkWinner()
-		prevIndex = val.id
-	} else {
-		// checkCell()
-		gamePlay[val.id] = "O"
-		val.setAttribute("class", "square O")
-		val.textContent = "O"
-		checkWinner()
-		prevIndex = val.id
-	}
-}
-
-
-function mouseOver(val){
-	val.classList.add("hover")
-}
-
-
-function mouseOut(val){
-	val.classList.remove("hover")
-}
-
-
-function checkCell(cell) {
-	if (cell.textContent != "X" && cell.textContent != "O") {
-		markSquare(cell)
-	}
-}
-
-
-function createBoard() {
-	var button = document.getElementsByClassName("btn")[0].setAttribute("onclick", "createBoard()")
-	var status = document.getElementById("status")
+function getDivs() {
 	var children = document.getElementById("board").childNodes
 	var childList = new Array();
-
-	gamePlay = []
-	status.textContent = "Move your mouse over a square and click to play an X or an O."
-	status.classList.remove("you-won")
-
 
 	for (var i=0; i < children.length; i++) {
 	  if (children[i].nodeName == "DIV") {
@@ -61,14 +13,24 @@ function createBoard() {
 	  }
 	}
 
+	return childList
+
+}
+
+
+function winner(player) {
+	var status = document.getElementById("status")
+	var childList = new Array();
+	childList = getDivs();
+
 	for (var i=0; i < childList.length; i++) {
-		childList[i].setAttribute("class", "square")
-	    childList[i].setAttribute("onclick", "checkCell(this)")
-	    childList[i].setAttribute("onmouseover", "mouseOver(this)")
-	    childList[i].setAttribute("onmouseout", "mouseOut(this)")
-	    childList[i].setAttribute("id", i)
-	    childList[i].textContent = ""
+	    childList[i].removeAttribute("onclick", "checkCell(this)")
+	    childList[i].removeAttribute("onmouseover", "mouseOver(this)")
+	    childList[i].removeAttribute("onmouseout", "mouseOut(this)")
 	} 
+
+	status.textContent = "Congratulations! " + player + " is the Winner!"
+	status.classList.add("you-won")
 }
 
 
@@ -107,23 +69,63 @@ function checkWinner(){
 }
 
 
-function winner(player) {
-	var children = document.getElementById("board").childNodes
-	var childList = new Array();
+function mark(val, player) {
+	gamePlay[val.id] = player
+	val.setAttribute("class", "square " + player)
+	val.textContent = player
+	prevIndex = val.id
+	checkWinner()
+}
 
-	for (var i=0; i < children.length; i++) {
-	  if (children[i].nodeName == "DIV") {
-	  	childList.push(children[i])
-	  }
+
+function markSquare(val) {
+	if (gamePlay.length == 0) {
+		mark(val, "X")
+
+	} else if (gamePlay[prevIndex] == "O") {
+		mark(val, "X")
+
+	} else {
+		mark(val, "O")
 	}
+}
+
+
+
+
+function mouseOver(val){
+	val.classList.add("hover")
+}
+
+
+function mouseOut(val){
+	val.classList.remove("hover")
+}
+
+
+function checkCell(cell) {
+	if (cell.textContent != "X" && cell.textContent != "O") {
+		markSquare(cell)
+	}
+}
+
+
+function createBoard() {
+	var button = document.getElementsByClassName("btn")[0].setAttribute("onclick", "createBoard()")
+	var status = document.getElementById("status")
+	var childList = new Array();
+	childList = getDivs();
+
+	gamePlay = []
+	status.textContent = "Move your mouse over a square and click to play an X or an O."
+	status.classList.remove("you-won")
 
 	for (var i=0; i < childList.length; i++) {
-	    childList[i].removeAttribute("onclick", "checkCell(this)")
-	    childList[i].removeAttribute("onmouseover", "mouseOver(this)")
-	    childList[i].removeAttribute("onmouseout", "mouseOut(this)")
+		childList[i].setAttribute("class", "square")
+	    childList[i].setAttribute("onclick", "checkCell(this)")
+	    childList[i].setAttribute("onmouseover", "mouseOver(this)")
+	    childList[i].setAttribute("onmouseout", "mouseOut(this)")
+	    childList[i].setAttribute("id", i)
+	    childList[i].textContent = ""
 	} 
-
-	var status = document.getElementById("status")
-	status.textContent = "Congratulations! " + player + " is the Winner!"
-	status.classList.add("you-won")
 }
