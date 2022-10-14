@@ -108,6 +108,21 @@ function checkWinner(){
 
 
 function winner(player) {
+	var children = document.getElementById("board").childNodes
+	var childList = new Array();
+
+	for (var i=0; i < children.length; i++) {
+	  if (children[i].nodeName == "DIV") {
+	  	childList.push(children[i])
+	  }
+	}
+
+	for (var i=0; i < childList.length; i++) {
+	    childList[i].removeAttribute("onclick", "checkCell(this)")
+	    childList[i].removeAttribute("onmouseover", "mouseOver(this)")
+	    childList[i].removeAttribute("onmouseout", "mouseOut(this)")
+	} 
+
 	var status = document.getElementById("status")
 	status.textContent = "Congratulations! " + player + " is the Winner!"
 	status.classList.add("you-won")
